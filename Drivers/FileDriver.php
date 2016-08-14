@@ -24,17 +24,16 @@ class FileDriver extends BaseFileDriver
      * @param array $options Options driver
      * @param ContainerInterface $container
      */
-    public function __construct($translator, array $options = [], ContainerInterface $container)
+    public function __construct(array $options = [], ContainerInterface $container)
     {
-        parent::__construct($translator, $options);
+        parent::__construct($options);
 
         $this->em = $container->get('doctrine')->getManager();
         $this->container = $container;
     }
 
     /**
-     * (non-PHPdoc)
-     * @see Lexik\Bundle\MaintenanceBundle\Drivers.AbstractDriver::isExists()
+     * @inheritdoc
      */
     public function isExists()
     {
@@ -45,55 +44,45 @@ class FileDriver extends BaseFileDriver
             return false;
         }
 
-        if (file_exists($this->filePath)) {
-            if (isset($this->options['ttl']) && is_numeric($this->options['ttl'])) {
-                $this->isEndTime($this->options['ttl']);
-            }
-
-            return true;
-        } else {
-            return false;
-        }
+        return parent::isExists();
     }
 
     /**
-     * (non-PHPdoc)
-     * @see Lexik\Bundle\MaintenanceBundle\Drivers.AbstractDriver::createLock()
+     * @inheritdoc
      */
     protected function createLock()
     {
         $parent = parent::createLock();
-
-        if (!$parent) {
-            return false;
-        }
 
         $maintenance = $this->getSetting('MAINTENANCE');
         $maintenance->setEnabled(true);
         $this->em->persist($maintenance);
         $this->em->flush($maintenance);
 
-        return true;
+        return $parent;
     }
 
     /**
-     * (non-PHPdoc)
-     * @see Lexik\Bundle\MaintenanceBundle\Drivers.AbstractDriver::createUnlock()
+     * @inheritdoc
      */
     protected function createUnlock()
     {
         $parent = parent::createUnlock();
-
-        if (!$parent) {
-            return false;
-        }
 
         $maintenance = $this->getSetting('MAINTENANCE');
         $maintenance->setEnabled(false);
         $this->em->persist($maintenance);
         $this->em->flush($maintenance);
 
-        return true;
+        return $parent;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function unlock()
+    {
+        return $this->createUnlock();
     }
 
     /**

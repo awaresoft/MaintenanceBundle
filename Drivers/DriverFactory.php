@@ -4,6 +4,7 @@ namespace Awaresoft\MaintenanceBundle\Drivers;
 
 use Lexik\Bundle\MaintenanceBundle\Drivers\DatabaseDriver;
 use Lexik\Bundle\MaintenanceBundle\Drivers\DriverFactory as LexikDriverFactory;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Translation\Translator;
 
@@ -14,32 +15,28 @@ use Symfony\Component\Translation\Translator;
  */
 class DriverFactory extends LexikDriverFactory
 {
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
-
-    public function __construct(DatabaseDriver $dbDriver, Translator $trans, array $driverOptions, ContainerInterface $container)
-    {
-        parent::__construct($dbDriver, $trans, $driverOptions);
-
-        $this->container = $container;
-    }
+    use ContainerAwareTrait;
 
     /**
      * @inheritdoc
      */
     public function getDriver()
     {
-        $class = $this->driver['class'];
-        if (class_exists($class)) {
-            if ($class === self::DATABASE_DRIVER) {
-                return $class($this->dbDriver, $this->trans, $this->driver['options'], $this->container);
-            }
+        $class = $this->driverOptions['class'];
 
-            return new $class($this->trans, $this->driver['options'], $this->container);
-        } else {
-            throw new \ErrorException("Class '" . $class . "' not found in " . get_class($this));
+        if (!class_exists($class)) {
+            throw new \ErrorException("Class '".$class."' not found in ".get_class($this));
         }
+
+        if ($class === static::DATABASE_DRIVER) {
+            $driver = $this->dbDriver;
+            $driver->setOptions($this->driverOptions['options']);
+        } else {
+            $driver = new $class($this->driverOptions['options'], $this->container);
+        }
+
+        $driver->setTranslator($this->translator);
+
+        return $driver;
     }
 }

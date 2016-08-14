@@ -5,4 +5,5 @@ services:
             - "@lexik_maintenance.driver.database"
             - "@translator.default"
             - "%lexik_maintenance.driver%"
-            - "@service_container"
+        calls:
+            - [setContainer, ["@service_container"]]
