@@ -1,0 +1,13 @@
+{
+    "name": "awaresoft/MaintenanceBundle",
+    "type": "symfony-bundle",
+    "description": "Symfony Awaresoft MaintenanceBundle",
+    "require": {
+        "php": ">= 7",
+        "symfony/symfony": "2.*",
+        "doctrine/orm": "2.*",
+        "lexik/maintenance-bundle": "2.*"
+    },"autoload": {
+    "psr-4": { "Awaresoft\\MaintenanceBundle\\": "" }
+}
+}

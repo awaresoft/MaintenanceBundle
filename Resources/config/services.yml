@@ -1,0 +1,8 @@
+services:
+    lexik_maintenance.driver.factory:
+        class: Awaresoft\MaintenanceBundle\Drivers\DriverFactory
+        arguments:
+            - "@lexik_maintenance.driver.database"
+            - "@translator.default"
+            - "%lexik_maintenance.driver%"
+            - "@service_container"

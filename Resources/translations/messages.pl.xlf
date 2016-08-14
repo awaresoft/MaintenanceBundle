@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="pl" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="maintenance.success_lock">
+                <source>maintenance.success_lock</source>
+                <target>Przerwa techniczna została uruchomiona</target>
+            </trans-unit>
+            <trans-unit id="maintenance.not_success_lock">
+                <source>maintenance.not_success_lock</source>
+                <target>Przerwa techniczna jest aktualnie włączona</target>
+            </trans-unit>
+            <trans-unit id="maintenance.success_unlock">
+                <source>maintenance.success_unlock</source>
+                <target>Serwer jest dostępny. Przerwa techniczna została wyłączona.</target>
+            </trans-unit>
+            <trans-unit id="maintenance.not_success_unlock">
+                <source>maintenance.not_success_unlock</source>
+                <target>Wystąpił problem z przejściem w tryb przerwy technicznej</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
