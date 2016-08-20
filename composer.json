@@ -1,5 +1,5 @@
 {
-    "name": "awaresoft/MaintenanceBundle",
+    "name": "awaresoft/maintenance-bundle",
     "type": "symfony-bundle",
     "description": "Symfony Awaresoft MaintenanceBundle",
     "require": {
