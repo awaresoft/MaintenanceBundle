@@ -5,7 +5,6 @@ namespace Awaresoft\MaintenanceBundle\Job;
 use Awaresoft\SettingBundle\Entity\Setting;
 use Awaresoft\SettingBundle\Entity\SettingHasField;
 use Awaresoft\SettingBundle\Job\SettingJobInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -20,10 +19,12 @@ class ChangeMaintenanceStatusJob implements SettingJobInterface
      *
      * @param Setting|SettingHasField $object
      * @param ContainerInterface $container
+     *
+     * @return void
      */
     public static function run($object, ContainerInterface $container)
     {
-        $em = $container->get('doctrine')->getManager();
+        $entityManager = $container->get('doctrine')->getManager();
         $driver = $container->get('lexik_maintenance.driver.factory')->getDriver();
 
         if ($object->isEnabled()) {
@@ -32,6 +33,6 @@ class ChangeMaintenanceStatusJob implements SettingJobInterface
             $driver->unlock();
         }
 
-        $em->flush($object);
+        $entityManager->flush($object);
     }
 }

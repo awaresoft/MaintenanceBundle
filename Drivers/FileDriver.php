@@ -10,7 +10,7 @@ class FileDriver extends BaseFileDriver
     /**
      * @var \Doctrine\Common\Persistence\ObjectManager|object
      */
-    protected $em;
+    protected $entityManager;
 
     /**
      * @var ContainerInterface
@@ -20,15 +20,14 @@ class FileDriver extends BaseFileDriver
     /**
      * Constructor
      *
-     * @param Translator $translator Translator service
      * @param array $options Options driver
      * @param ContainerInterface $container
      */
-    public function __construct(array $options = [], ContainerInterface $container)
+    public function __construct(ContainerInterface $container, array $options = [])
     {
         parent::__construct($options);
 
-        $this->em = $container->get('doctrine')->getManager();
+        $this->entityManager = $container->get('doctrine')->getManager();
         $this->container = $container;
     }
 
@@ -56,8 +55,8 @@ class FileDriver extends BaseFileDriver
 
         $maintenance = $this->getSetting('MAINTENANCE');
         $maintenance->setEnabled(true);
-        $this->em->persist($maintenance);
-        $this->em->flush($maintenance);
+        $this->entityManager->persist($maintenance);
+        $this->entityManager->flush($maintenance);
 
         return $parent;
     }
@@ -71,8 +70,8 @@ class FileDriver extends BaseFileDriver
 
         $maintenance = $this->getSetting('MAINTENANCE');
         $maintenance->setEnabled(false);
-        $this->em->persist($maintenance);
-        $this->em->flush($maintenance);
+        $this->entityManager->persist($maintenance);
+        $this->entityManager->flush($maintenance);
 
         return $parent;
     }
