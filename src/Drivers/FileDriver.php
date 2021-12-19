@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class FileDriver extends BaseFileDriver
 {
     /**
-     * @var \Doctrine\Common\Persistence\ObjectManager|object
+     * @var \Doctrine\Persistence\ObjectManager|object
      */
     protected $entityManager;
 

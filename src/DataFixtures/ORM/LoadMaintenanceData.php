@@ -2,8 +2,8 @@
 
 namespace Awaresoft\MaintenanceBundle\DataFixtures\ORM;
 
-use Awaresoft\Doctrine\Common\DataFixtures\AbstractFixture as AwaresoftAbstractFixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Awaresoft\DoctrineBundle\DataFixtures\AbstractFixture;
+use Doctrine\Persistence\ObjectManager;
 use Awaresoft\SettingBundle\Entity\Setting;
 use Awaresoft\SettingBundle\Entity\SettingHasField;
 
@@ -12,8 +12,16 @@ use Awaresoft\SettingBundle\Entity\SettingHasField;
  *
  * @author Bartosz Malec <b.malec@awaresoft.pl>
  */
-class LoadMaintenanceData extends AwaresoftAbstractFixture
+class LoadMaintenanceData extends AbstractFixture
 {
+    /**
+     * {@inheritDoc}
+     */
+    public static function getGroups(): array
+    {
+        return ['prod'];
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -25,15 +33,7 @@ class LoadMaintenanceData extends AwaresoftAbstractFixture
     /**
      * {@inheritDoc}
      */
-    public function getEnvironments()
-    {
-        return array('dev', 'prod');
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function doLoad(ObjectManager $manager)
+    public function load(ObjectManager $manager)
     {
         // maintenance setting
         $setting = new Setting();

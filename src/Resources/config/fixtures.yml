@@ -1,0 +1,3 @@
+services:
+    Awaresoft\MaintenanceBundle\DataFixtures\ORM\LoadMaintenanceData:
+        tags: ['doctrine.fixture.orm']
